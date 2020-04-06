@@ -15,7 +15,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var bottomTextField: UITextField!
     
-    @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var topToolBar: UIToolbar!
+    @IBOutlet weak var bottomToolBar: UIToolbar!
+    
+    @IBOutlet weak var shareBarButton: UIBarButtonItem!
+    @IBOutlet weak var cancelBarButton: UIBarButtonItem!
+    
     var activeTextField: UITextField!
     
     override func viewDidLoad() {
@@ -37,6 +42,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         topTextField.delegate = self
         bottomTextField.delegate = self
+        
+        disableShareButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,23 +71,64 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.present(imagePickerVC, animated: true, completion: nil)
     }
     
+    func save() {
+        
+        let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: generateMemedImage())
+        
+    }
+    
+    private func disableShareButton() {
+        shareBarButton.isEnabled = false
+    }
+    
+    @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
+        
+        let activityVC = UIActivityViewController(activityItems: [], applicationActivities: nil)
+        self.present(activityVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {        
+        imagePickerView.image = nil
+        topTextField.text = "TOP"
+        bottomTextField.text = "BOTTOM"
+        
+        disableShareButton()
+    }
+    
     
     // MARK : Generate memed image
+    func generateMemedImage() -> UIImage {
+        // Hide tool bar and navigation bar
+        topToolBar.isHidden = true
+        bottomToolBar.isHidden = true
+        
+        // Render view to an image
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        // Show tool bar
+        topToolBar.isHidden = false
+        bottomToolBar.isHidden = false
     
+        return memedImage
+    }
 
-    
     
     // MARK : Image Picker delegates
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let image = info[.originalImage] as? UIImage{
             imagePickerView.image = image
+            shareBarButton.isEnabled = true
         }
         
         dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        disableShareButton()
         dismiss(animated: true, completion: nil)
     }
     
@@ -91,14 +139,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomTextField.resignFirstResponder()
         return true;
     }
-        
+    
+    // set the current text field, to help validate if it is being covered by Keyboard
     func textFieldDidBeginEditing(_ textField: UITextField) {
         activeTextField = textField
     }
-    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-////        activeTextField = nil
-//    }
     
     // MARK : Keyboard notification and its movement by shifting the view
     func subscribetoKeyboardNotifications() {
@@ -114,10 +159,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @objc func keyboardWillShow(_ notification: Notification) {
         
-        // If active text field is hidden by keyboard, scroll it so it's visible
+        // if active text field is hidden by keyboard
         var aRect: CGRect = self.view.frame
         aRect.size.height -= getKeyboardHeight(notification)
         if (!aRect.contains(activeTextField.frame.origin) ) {
+            // yes, so scroll current view so text field is visible
             view.frame.origin.y -= getKeyboardHeight(notification)
         }
     }
