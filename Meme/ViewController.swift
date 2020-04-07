@@ -9,7 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
-
+    
+    let titleTop = "TOP"
+    let titleBottom = "BOTTOM"
+    let defaultFontName = "HelveticaNeue-CondensedBlack"
+    
+    
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var cameraBarButton: UIBarButtonItem!
     @IBOutlet weak var topTextField: UITextField!
@@ -25,25 +30,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        configureTextField(topTextField, with: titleTop)
+        configureTextField(bottomTextField, with: titleBottom)
+
+        disableShareButton()
+    }
+    
+    func configureTextField(_ textField: UITextField, with title: String) {
         let memeTextAttributes: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.strokeColor: UIColor.white,
-            NSAttributedString.Key.backgroundColor: UIColor.clear,
-            NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSAttributedString.Key.strokeColor: UIColor.black,
+            NSAttributedString.Key.backgroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont(name: defaultFontName, size: 40)!,
             NSAttributedString.Key.strokeWidth:  5.0
         ]
+
+        textField.defaultTextAttributes = memeTextAttributes
         
-        topTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        topTextField.text = "TOP"
-        topTextField.textAlignment = .center
-        bottomTextField.text = "BOTTOM"
-        bottomTextField.textAlignment = .center
-        
-        topTextField.delegate = self
-        bottomTextField.delegate = self
-        
-        disableShareButton()
+        textField.textAlignment = .center
+        textField.text = title
+        textField.delegate = self
     }
     
     private func disableShareButton() {
@@ -61,18 +67,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         unsubscribeFromKeyboardNotifications()
     }
     
-    @IBAction func pickAnImageFromAlbum(_ sender: UIBarButtonItem) {
+    func pickFromSource(_ source: UIImagePickerController.SourceType) {
         let imagePickerVC = UIImagePickerController()
         imagePickerVC.delegate = self
-        imagePickerVC.sourceType = .photoLibrary
+        imagePickerVC.sourceType = source
         self.present(imagePickerVC, animated: true, completion: nil)
     }
     
+    @IBAction func pickAnImageFromAlbum(_ sender: UIBarButtonItem) {
+        pickFromSource(.photoLibrary)
+    }
+    
     @IBAction func pickAnImageFromCamera(_ sender: UIBarButtonItem) {
-        let imagePickerVC = UIImagePickerController()
-        imagePickerVC.delegate = self
-        imagePickerVC.sourceType = .camera
-        self.present(imagePickerVC, animated: true, completion: nil)
+        pickFromSource(.camera)
     }
     
     func save() {
@@ -96,8 +103,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         imagePickerView.image = nil
-        topTextField.text = "TOP"
-        bottomTextField.text = "BOTTOM"
+        topTextField.text = titleTop
+        bottomTextField.text = titleBottom
         
         disableShareButton()
     }
