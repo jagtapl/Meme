@@ -103,7 +103,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    // MARK : Generate memed image, by hdiing toolbars
+    // MARK: Generate memed image, by hdiing toolbars
     
     func generateMemedImage() -> UIImage {
 
@@ -123,7 +123,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     
-    // MARK : Image Picker delegates
+    // MARK: Image Picker delegates
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage{
@@ -139,7 +139,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         dismiss(animated: true, completion: nil)
     }
     
-    // MARK : Text field delegates
+    // MARK: Text field delegates
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         topTextField.resignFirstResponder()
@@ -152,7 +152,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         activeTextField = textField
     }
     
-    // MARK : Keyboard notification and its movement by shifting the view
+    // MARK: Keyboard notification and its movement by shifting the view
     func subscribetoKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
