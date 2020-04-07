@@ -63,6 +63,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>User wants access to camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>User wants access to photo libreary</string>
+	<string>User wants access to photo library</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>User wants access to add photo to photo library</string>
 </dict>
 </plist>

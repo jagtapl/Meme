@@ -46,6 +46,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         disableShareButton()
     }
     
+    private func disableShareButton() {
+        shareBarButton.isEnabled = false
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         subscribetoKeyboardNotifications()
@@ -72,22 +76,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func save() {
-        
-        let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: generateMemedImage())
-        
-    }
-    
-    private func disableShareButton() {
-        shareBarButton.isEnabled = false
+        _ = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: generateMemedImage())
     }
     
     @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
+        let memedImage = generateMemedImage()
+
+        let activityVC = UIActivityViewController(activityItems: [memedImage], applicationActivities: [])
+        activityVC.popoverPresentationController?.sourceView = self.view
+        activityVC.completionWithItemsHandler = {(activityType, completed, returnedItems, error) in
+    
+            if completed {
+                self.save()
+            }
+        }
         
-        let activityVC = UIActivityViewController(activityItems: [], applicationActivities: nil)
         self.present(activityVC, animated: true, completion: nil)
     }
     
-    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {        
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         imagePickerView.image = nil
         topTextField.text = "TOP"
         bottomTextField.text = "BOTTOM"
@@ -96,9 +103,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    // MARK : Generate memed image
+    // MARK : Generate memed image, by hdiing toolbars
+    
     func generateMemedImage() -> UIImage {
-        // Hide tool bar and navigation bar
+
         topToolBar.isHidden = true
         bottomToolBar.isHidden = true
         
@@ -108,7 +116,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        // Show tool bar
         topToolBar.isHidden = false
         bottomToolBar.isHidden = false
     
@@ -117,8 +124,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     
     // MARK : Image Picker delegates
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         if let image = info[.originalImage] as? UIImage{
             imagePickerView.image = image
             shareBarButton.isEnabled = true
