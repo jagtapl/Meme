@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     let titleTop = "TOP"
     let titleBottom = "BOTTOM"
@@ -82,10 +82,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         pickFromSource(.camera)
     }
     
-    func save() {
-        _ = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: generateMemedImage())
-    }
-    
     @IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
         let memedImage = generateMemedImage()
 
@@ -109,6 +105,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         disableShareButton()
     }
     
+    // MARK: Meme model
+    var memes: [Meme]! {
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
+        return appDelegate.meme
+    }
+    
+    func save() {
+        let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, originalImage: imagePickerView.image!, memedImage: generateMemedImage())
+        
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
+        
+        appDelegate.meme.append(meme)
+    }
     
     // MARK: Generate memed image, by hdiing toolbars
     
