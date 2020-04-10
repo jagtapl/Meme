@@ -91,6 +91,10 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
             if completed {
                 self.save()
+                
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
         }
         
@@ -103,6 +107,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         bottomTextField.text = titleBottom
         
         disableShareButton()
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: Meme model
@@ -129,8 +134,12 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         bottomToolBar.isHidden = true
         
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+//        UIGraphicsBeginImageContext(self.view.frame.size)
+//        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+
+        UIGraphicsBeginImageContext(self.imagePickerView.frame.size)
+        view.drawHierarchy(in: self.imagePickerView.frame, afterScreenUpdates: true)
+        
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
