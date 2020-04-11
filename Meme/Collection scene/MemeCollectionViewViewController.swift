@@ -13,7 +13,7 @@ class MemeCollectionViewViewController: UIViewController, UICollectionViewDataSo
     @IBOutlet weak var memeCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    // MARK: Meme model
+    // MARK: Access to Meme model
     var memes: [Meme]! {
         let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
@@ -23,9 +23,8 @@ class MemeCollectionViewViewController: UIViewController, UICollectionViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Use Flow Layout to configure cell of Collection View
         
-        /* from https://knowledge.udacity.com/questions/78981 */
         let numberOfCellsPerRow:CGFloat = 2
         
         if let flowLayout = memeCollectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -35,27 +34,6 @@ class MemeCollectionViewViewController: UIViewController, UICollectionViewDataSo
                         
             flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
         }
-        
-        /* from the online teacher
-        let space:CGFloat = 3.0
-        let dimension = (view.frame.size.width - (2 * space)) / 3.0
-
-        flowLayout.minimumInteritemSpacing = space
-        flowLayout.minimumLineSpacing = space
-        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
-        */
-    
-        /* from FNBR
-        let columns: CGFloat = 2
-        let width = view.bounds.width
-        let padding: CGFloat = 12
-        let minimumSpacing: CGFloat = 10
-        let availableWidth = width - (padding * 2) - (minimumSpacing * (columns - 1))
-        let itemWidth = availableWidth / columns
-
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
-        */
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +50,8 @@ class MemeCollectionViewViewController: UIViewController, UICollectionViewDataSo
         self.present(memeEditorVC, animated: true, completion: nil)
     }
     
+    // MARK: Collection View Delegates
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let memes = self.memes {
             return memes.count

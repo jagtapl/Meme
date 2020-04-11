@@ -49,6 +49,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D11CD15924420EA400E8C8B8 /* Collection scene */ = {
+			isa = PBXGroup;
+			children = (
+				D12FBB1C243FADA100D4ABC6 /* MemeCollectionViewViewController.swift */,
+				D1C9AA54244009AA009EEEAC /* MemeCollectionViewCell.swift */,
+			);
+			path = "Collection scene";
+			sourceTree = "<group>";
+		};
+		D11CD15A24420ECB00E8C8B8 /* TableView scene */ = {
+			isa = PBXGroup;
+			children = (
+				D12FBB1A243FAB8500D4ABC6 /* MemeTableViewViewController.swift */,
+				D12FBB1E243FCF5600D4ABC6 /* MemeTableViewCell.swift */,
+			);
+			path = "TableView scene";
+			sourceTree = "<group>";
+		};
+		D11CD15B24420F2600E8C8B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D1C0F087243A6825000869EF /* AppDelegate.swift */,
+				D1C8B344243BC3390075FC8A /* Meme.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D11CD15C24420F5000E8C8B8 /* Detail and Editor scene */ = {
+			isa = PBXGroup;
+			children = (
+				D12FBB18243FAB2D00D4ABC6 /* MemeDetailViewController.swift */,
+				D1C0F08B243A6825000869EF /* MemeEditorViewController.swift */,
+			);
+			path = "Detail and Editor scene";
+			sourceTree = "<group>";
+		};
 		D1C0F07B243A6825000869EF = {
 			isa = PBXGroup;
 			children = (
@@ -68,15 +104,11 @@
 		D1C0F086243A6825000869EF /* Meme */ = {
 			isa = PBXGroup;
 			children = (
-				D1C0F087243A6825000869EF /* AppDelegate.swift */,
 				D1C0F089243A6825000869EF /* SceneDelegate.swift */,
-				D12FBB1A243FAB8500D4ABC6 /* MemeTableViewViewController.swift */,
-				D12FBB1E243FCF5600D4ABC6 /* MemeTableViewCell.swift */,
-				D1C9AA54244009AA009EEEAC /* MemeCollectionViewCell.swift */,
-				D12FBB1C243FADA100D4ABC6 /* MemeCollectionViewViewController.swift */,
-				D12FBB18243FAB2D00D4ABC6 /* MemeDetailViewController.swift */,
-				D1C0F08B243A6825000869EF /* MemeEditorViewController.swift */,
-				D1C8B344243BC3390075FC8A /* Meme.swift */,
+				D11CD15B24420F2600E8C8B8 /* Model */,
+				D11CD15A24420ECB00E8C8B8 /* TableView scene */,
+				D11CD15924420EA400E8C8B8 /* Collection scene */,
+				D11CD15C24420F5000E8C8B8 /* Detail and Editor scene */,
 				D1C0F08D243A6825000869EF /* Main.storyboard */,
 				D1C0F090243A6827000869EF /* Assets.xcassets */,
 				D1C0F092243A6827000869EF /* LaunchScreen.storyboard */,

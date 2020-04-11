@@ -13,22 +13,9 @@ class MemeTableViewCell: UITableViewCell {
     @IBOutlet weak var memedImageView: UIImageView!
     @IBOutlet weak var topbotLabel: UILabel!
     
-    
+    // Update cell using the passed meme object
     func update(with meme: Meme) {
         memedImageView.image = meme.memedImage
         topbotLabel.text = meme.topText + " " + meme.bottomText
     }
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

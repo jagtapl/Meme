@@ -12,7 +12,7 @@ class MemeTableViewViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var memeTableView: UITableView!
     
-    // MARK: Meme model
+    // MARK: Access to Meme model
     var memes: [Meme]! {
         let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
@@ -36,6 +36,7 @@ class MemeTableViewViewController: UIViewController, UITableViewDataSource, UITa
         self.present(memeEditorVC, animated: true, completion: nil)
     }
     
+    // MARK: Table View Delegates
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let memes = self.memes {
