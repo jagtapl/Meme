@@ -25,7 +25,6 @@ class MemeTableViewViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewWillAppear(_ animated: Bool) {
         self.memeTableView.reloadData()
-        print("count of memes \(memes.count)")
     }
     
     @IBAction func showMemeEditor(_ sender: Any) {
