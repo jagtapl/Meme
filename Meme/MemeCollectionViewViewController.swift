@@ -25,13 +25,25 @@ class MemeCollectionViewViewController: UIViewController, UICollectionViewDataSo
 
         // Do any additional setup after loading the view.
         
+        /* from https://knowledge.udacity.com/questions/78981 */
+        let numberOfCellsPerRow:CGFloat = 2
+        
+        if let flowLayout = memeCollectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+            
+            let horizontalSpacing = flowLayout.scrollDirection == .vertical ? flowLayout.minimumInteritemSpacing : flowLayout.minimumLineSpacing
+            let cellWidth = (view.frame.width - max(0, numberOfCellsPerRow - 1) * horizontalSpacing) / numberOfCellsPerRow
+                        
+            flowLayout.itemSize = CGSize(width: cellWidth, height: cellWidth)
+        }
+        
+        /* from the online teacher
         let space:CGFloat = 3.0
         let dimension = (view.frame.size.width - (2 * space)) / 3.0
 
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
         flowLayout.itemSize = CGSize(width: dimension, height: dimension)
-      
+        */
     
         /* from FNBR
         let columns: CGFloat = 2
